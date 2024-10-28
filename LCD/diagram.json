@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "author": "Nicat Abbasov",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 269.4, "left": -0.6, "attrs": {} },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 254.4,
+      "left": 124.25,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 536.3, "left": 182.2, "attrs": {} },
+    { "type": "wokwi-lcd2004", "id": "lcd2", "top": -88.04, "left": 6.4, "attrs": {} }
+  ],
+  "connections": [
+    [ "r1:2", "uno:5V", "green", [ "h0" ] ],
+    [ "pot1:GND", "uno:GND.2", "black", [ "v-76.8", "h-41.7" ] ],
+    [ "pot1:SIG", "uno:A0", "green", [ "h-0.4", "v-96", "h-13.4" ] ],
+    [ "pot1:VCC", "uno:5V", "red", [ "v-38.4", "h-71.2" ] ],
+    [ "uno:GND.1", "lcd2:VSS", "black", [ "v-67.2", "h-76.5" ] ],
+    [ "lcd2:VDD", "uno:5V", "green", [ "v480", "h111.5" ] ],
+    [ "lcd2:V0", "uno:5V", "green", [ "v480", "h101.5" ] ],
+    [ "lcd2:RS", "uno:12", "green", [ "v134.4", "h67" ] ],
+    [ "lcd2:RW", "uno:GND.1", "green", [ "v124.8", "h38" ] ],
+    [ "lcd2:E", "uno:11", "green", [ "v96", "h57" ] ],
+    [ "lcd2:D4", "uno:5", "green", [ "v86.4", "h73" ] ],
+    [ "lcd2:D5", "uno:4", "green", [ "v76.8", "h73" ] ],
+    [ "lcd2:A", "r1:1", "green", [ "v0" ] ],
+    [ "lcd2:K", "uno:GND.1", "green", [ "v124.8", "h-67.5" ] ],
+    [ "lcd2:D6", "uno:3", "green", [ "v67.2", "h73" ] ],
+    [ "lcd2:D7", "uno:2", "green", [ "v57.6", "h73" ] ]
+  ],
+  "dependencies": {}
+}
