@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "author": "Nicat Abbasov",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0.6, "left": -0.6, "attrs": {} },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd1",
+      "top": 275.2,
+      "left": -23.2,
+      "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": -131.2,
+      "left": 58.4,
+      "attrs": {}
+    },
+    { "type": "wokwi-analog-joystick", "id": "joystick1", "top": 76.2, "left": 351, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 152.3, "left": 470.2, "attrs": {} }
+  ],
+  "connections": [
+    [ "ldr1:VCC", "uno:5V", "red", [ "h67.2", "v336", "h-137.6" ] ],
+    [ "ldr1:GND", "uno:GND.1", "black", [ "h19.2", "v66.8", "h-134.1" ] ],
+    [ "ldr1:AO", "uno:A0", "green", [ "h57.6", "v296.9", "h-80.6" ] ],
+    [ "lcd1:GND", "uno:GND.2", "black", [ "h-28.8", "v-76.8", "h216.9" ] ],
+    [ "lcd1:VCC", "uno:5V", "red", [ "h-38.4", "v-95.9", "h217" ] ],
+    [ "lcd1:SDA", "uno:A4", "green", [ "h-86.4", "v-86.2", "h351" ] ],
+    [ "lcd1:SCL", "uno:A5", "green", [ "h-115.2", "v-76.5", "h389.3" ] ],
+    [ "joystick1:VCC", "uno:5V", "red", [ "v28.8", "h-224.6" ] ],
+    [ "joystick1:GND", "uno:GND.2", "black", [ "v38.4", "h-253.5" ] ],
+    [ "joystick1:VERT", "uno:A1", "green", [ "v76.8", "h-176.7" ] ],
+    [ "pot1:GND", "uno:GND.2", "black", [ "v9.6", "h-326.4", "v0", "h-3.9" ] ],
+    [ "pot1:SIG", "uno:A2", "green", [ "v28.8", "h-278.8", "v-57.5" ] ],
+    [ "pot1:VCC", "uno:5V", "red", [ "v19.2", "h-221.6", "v-19.2", "h-138.2" ] ]
+  ],
+  "dependencies": {}
+}
