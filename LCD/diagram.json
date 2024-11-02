@@ -19,7 +19,7 @@
     [ "r1:2", "uno:5V", "green", [ "h0" ] ],
     [ "pot1:GND", "uno:GND.2", "black", [ "v-76.8", "h-41.7" ] ],
     [ "pot1:SIG", "uno:A0", "green", [ "h-0.4", "v-96", "h-13.4" ] ],
-    [ "pot1:VCC", "uno:5V", "red", [ "v-38.4", "h-71.2" ] ],
+    [ "pot1:VCC", "uno:5V", "red", [ "v-38.4", "h-68", "v-105.5" ] ],
     [ "uno:GND.1", "lcd2:VSS", "black", [ "v-67.2", "h-76.5" ] ],
     [ "lcd2:VDD", "uno:5V", "green", [ "v480", "h111.5" ] ],
     [ "lcd2:V0", "uno:5V", "green", [ "v480", "h101.5" ] ],

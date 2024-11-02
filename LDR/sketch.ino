@@ -28,7 +28,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   int analog = analogRead(A0);
   int vertVal = analogRead(A1);
   int potVal = analogRead(A2);
@@ -43,18 +42,30 @@ void loop() {
   lcd.setCursor(0,0);
   lcd.print("Lux val: ");
   lcd.print(lux);
+  String lux_string = String(lux);
+  FillSpace("Lux val: ", lux_string);
 
   lcd.setCursor(0,1);
   lcd.print("Joystick val: ");
   lcd.print(vertVal);
-
-
+  
+  String vertVal_string = String(vertVal);
+  FillSpace("Joystick val: ", vertVal_string);
+  
   lcd.setCursor(0,2);
   lcd.print("Pot. val: ");
   lcd.print(potVoltage);
+  String potVoltage_string = String(potVoltage);
+  FillSpace("Pot. val: ", potVoltage_string);
+
+}
+
+
+void FillSpace(const char* string1, String string2){
+
+  int len = strlen(string1) + string2.length();
   
-
-  
-
-
+  for (int i =0; i< (20 -len); i++){
+    lcd.print(" ");
+  }
 }
