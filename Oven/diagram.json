@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "author": "Nicat Abbasov",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0.6, "left": -0.6, "attrs": {} },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd1",
+      "top": 284.8,
+      "left": 44,
+      "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-analog-joystick",
+      "id": "joystick1",
+      "top": 76.2,
+      "left": 312.6,
+      "attrs": {}
+    },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": 221, "left": 576, "attrs": {} },
+    { "type": "wokwi-vcc", "id": "vcc1", "top": 163.96, "left": 595.2, "attrs": {} },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": 195.2,
+      "left": -373.6,
+      "attrs": {}
+    },
+    { "type": "wokwi-dht22", "id": "dht1", "top": -249.3, "left": 138.6, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 57,
+      "left": -169.8,
+      "rotate": 90,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": 57,
+      "left": -83.4,
+      "rotate": 90,
+      "attrs": { "color": "green" }
+    },
+    { "type": "wokwi-gnd", "id": "gnd1", "top": 403.2, "left": 585, "attrs": {} },
+    { "type": "wokwi-gate-and-2", "id": "and1", "top": 163.2, "left": 451.2, "attrs": {} }
+  ],
+  "connections": [
+    [ "lcd1:GND", "uno:GND.2", "black", [ "h-67.2", "v-67.2", "h188.1" ] ],
+    [ "lcd1:SDA", "uno:A4", "green", [ "h-86.4", "v-105.4", "h283.8" ] ],
+    [ "lcd1:SCL", "uno:A5", "green", [ "h-76.8", "v-86.1", "h283.7" ] ],
+    [ "lcd1:VCC", "uno:5V", "red", [ "h-38.4", "v-57.5", "h149.8" ] ],
+    [ "joystick1:VCC", "uno:5V", "red", [ "v76.8", "h-182.4", "v0", "h-3.8" ] ],
+    [ "joystick1:GND", "uno:GND.2", "black", [ "v57.6", "h-215.1" ] ],
+    [ "relay1:VCC", "uno:5V", "red", [ "h0" ] ],
+    [ "relay1:GND", "uno:GND.2", "black", [ "h0" ] ],
+    [ "relay1:COM", "vcc1:VCC", "green", [ "h0" ] ],
+    [ "relay1:NO", "uno:2", "green", [ "h30", "v-309", "h-349.7" ] ],
+    [ "ldr1:VCC", "uno:5V", "red", [ "h0" ] ],
+    [ "ldr1:GND", "uno:GND.2", "black", [ "h0" ] ],
+    [ "ldr1:DO", "uno:4", "green", [ "h38.4", "v-269.4", "h264.9" ] ],
+    [ "dht1:VCC", "uno:5V", "red", [ "v28.8", "h-240", "v316.8", "h245.8" ] ],
+    [ "dht1:SDA", "uno:9", "green", [ "v0" ] ],
+    [ "dht1:GND", "uno:GND.1", "black", [ "v67.2", "h-67.5" ] ],
+    [ "uno:5V", "btn1:1.r", "red", [ "v19.1", "h-284.2" ] ],
+    [ "btn1:2.l", "uno:13", "green", [ "v-67.2", "h268.2" ] ],
+    [ "uno:5V", "btn2:1.r", "red", [ "v19.1", "h-197.8" ] ],
+    [ "btn2:2.l", "uno:12", "green", [ "v-57.6", "h191.3" ] ],
+    [ "uno:3", "and1:A", "green", [ "v-28.8", "h176.8", "v163.2" ] ],
+    [ "joystick1:SEL", "and1:B", "green", [ "v28.8", "h48", "v-57.6" ] ],
+    [ "and1:OUT", "relay1:IN", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
