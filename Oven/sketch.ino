@@ -13,6 +13,11 @@ int button = 0;
 int lastButtonState = HIGH;
 int lastButtonState2 = HIGH;
 unsigned long startTime;
+unsigned long lastDebounceTime = 0;  
+unsigned long lastDebounceTime2 = 0;
+const unsigned long debounceDelay = 50;
+
+
 
 enum Pins{
   lightPin = 4,
@@ -54,32 +59,20 @@ void loop() {
   int TEM = DHT.read22(DHT22_PIN);
   int temVal = DHT.temperature;
   lcd.print(temVal);
-  int currButtonState = digitalRead(incrPin);
-  if (lastButtonState == HIGH && currButtonState == LOW) {
-    idtVal++; 
-  }
-  lastButtonState = currButtonState;
-  int currButtonState2 = digitalRead(decrPin);
-  if (lastButtonState2 == HIGH && currButtonState2 == LOW) {
-    idtVal--; 
-  }
-  lastButtonState2 = currButtonState2;
 
-  if (idtVal<0 || idtVal>99){
-    return 0;
-  }
 
-  lcd.setCursor(4,1);
-  lcd.print(idtVal);
+  check_button_one_sec();
   if (idtVal>temVal){
     digitalWrite(3, HIGH);
   }
   else{
     digitalWrite(3, LOW);
   }
+  check_button_one_sec();
+
   int len = num_len(idtVal);
   add_space(3-len);
-  
+  check_button_one_sec();
   lcd.setCursor(8,1);
   if(digitalRead(relPin) ){
     lcd.print("AK");
@@ -87,18 +80,21 @@ void loop() {
   else{
     lcd.print("PS");
   }
+  
+  check_button_one_sec();
   unsigned long elapsedTime = millis() - startTime;
   int time = elapsedTime / 1000;
+  check_button_one_sec();
   lcd.setCursor(11, 1);
   lcd.print(time);
+  check_button_one_sec();
   lcd.setCursor(15,1);
   if (digitalRead(lightPin) == LOW) {
     lcd.print("G");
   } else {
     lcd.print("A");
   }
-
-  delay(10);
+  check_button_one_sec();
 }
 
 void add_space(int n){
@@ -118,3 +114,36 @@ int num_len(int val){
 }
 
 
+void check_button_one_sec(){
+  unsigned long start = millis();
+  // check muddeti 1 san erzinde gedir
+  while(millis()< start + 300){
+    int currButtonState = digitalRead(incrPin);
+
+    if ((millis() - lastDebounceTime) > debounceDelay && lastButtonState == HIGH
+                                             && currButtonState == LOW) {
+      idtVal++;
+      lastDebounceTime = millis();
+    }
+
+    lastButtonState = currButtonState;
+    int currButtonState2 = digitalRead(decrPin);
+
+    if ((millis() - lastDebounceTime2) > debounceDelay && lastButtonState2 == HIGH 
+                                        && currButtonState2 == LOW) {
+      idtVal--;
+      lastDebounceTime2 = millis();
+      }
+    lastButtonState2 = currButtonState2;
+
+
+
+    if (idtVal<0 || idtVal>99){
+      return 0;
+    }
+    lcd.setCursor(4,1);
+    lcd.print(idtVal);
+  }
+  
+
+}
