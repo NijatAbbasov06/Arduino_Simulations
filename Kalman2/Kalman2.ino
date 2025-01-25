@@ -41,6 +41,13 @@ enum Pins {
   relPin = 2
 };
 
+struct KalmanResult {
+ float tem_kalman;
+ float P;
+ float tem_kalman_next;
+ float P_next;
+};
+
 
 DHT dht(DHT11_PIN, DHT11);
 
@@ -88,6 +95,14 @@ void setup() {
 
 unsigned long time_ms = millis();
 
+
+float tem_kalman_prev = 4.25;
+float P_prev = 1;
+float R = 0.01;
+float Q = 0;
+float temKalman;
+
+
 void loop() {
   time_ms = millis();
   // display.clearDisplay();
@@ -102,12 +117,23 @@ void loop() {
       delay(2000); // Wait 2 seconds before retrying
       return;
   }
-
-
-
   display.print("TEM: ");
   display.fillRect(30, 10, SCREEN_WIDTH - 30, 10, SSD1306_BLACK); 
   display.print(temVal);
+  display.display();
+
+  KalmanResult result = KalmanFilter(tem_kalman_prev, P_prev, temVal);
+  float tem_kalman = result.tem_kalman;
+  float P = result.P;
+  //we use prev here for the next value
+  float tem_kalman_prev = result.tem_kalman_next;
+  float P_prev = result.P_next;
+
+  display.setCursor(0, 20);
+  display.print("Kalman val: ");
+  display.fillRect(72, 20, SCREEN_WIDTH - 72, 20, SSD1306_BLACK); 
+  display.print(tem_kalman);
+
   display.display();
 
   check_button_one_sec();
@@ -122,9 +148,9 @@ void loop() {
   add_space(3);
   // check_button_one_sec();
 
-  display.setCursor(0, 20);
+  display.setCursor(0, 30);
   display.print("IDT: ");
-  display.fillRect(30, 20, SCREEN_WIDTH - 30, 10, SSD1306_BLACK);
+  display.fillRect(30, 30, SCREEN_WIDTH - 30, 10, SSD1306_BLACK);
   display.print(idtVal);
   display.display();
 
@@ -134,16 +160,16 @@ void loop() {
   time = elapsedTime / 1000;
   check_button_one_sec();
 
-  display.setCursor(0, 30);
-  display.fillRect(30, 30, SCREEN_WIDTH - 30, 10, SSD1306_BLACK);
+  display.setCursor(0, 40);
+  display.fillRect(30, 40, SCREEN_WIDTH - 30, 10, SSD1306_BLACK);
   display.print("Time: ");
   display.print(time);
   display.display();
 
 
 
-  display.setCursor(0, 40);
-  display.fillRect(30, 40, SCREEN_WIDTH - 30, 10, SSD1306_BLACK);
+  display.setCursor(0, 50);
+  display.fillRect(30, 50, SCREEN_WIDTH - 30, 10, SSD1306_BLACK);
   display.print("Rel: ");
   if (digitalRead(relPin)) {
     display.print("AK");
@@ -153,8 +179,8 @@ void loop() {
   display.display();
 
 
-  display.setCursor(0, 50);
-  display.fillRect(42, 50, SCREEN_WIDTH - 42, 20, SSD1306_BLACK);
+  display.setCursor(60, 50);
+  display.fillRect(102, 50, SCREEN_WIDTH - 102, 30, SSD1306_BLACK);
   display.print("Light: ");
   if (digitalRead(lightPin) == LOW) {
     display.print("G");
@@ -206,4 +232,14 @@ void check_button_one_sec() {
       return;
     }
   }
+}
+
+KalmanResult KalmanFilter(float x_prev, float P_prev, float z){
+ KalmanResult result;
+ float K = P_prev / (P_prev + R);
+ result.tem_kalman = x_prev + K * (z - x_prev);
+ result.P = (1- K) * P_prev;
+ result.tem_kalman_next = result.tem_kalman;
+ result.P_next = result.P + Q;
+ return result;
 }
